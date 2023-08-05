@@ -129,7 +129,7 @@ class EbicsUserID(models.Model):
         "by means of the SWIFT 3SKey token.",
     )
     swift_3skey_certificate = fields.Binary(string="3SKey Certficate")
-    swift_3skey_certificate_fn = fields.Char(string="EBICS certificate name")
+    swift_3skey_certificate_fn = fields.Char(string="3SKey Certificate Filename")
     # X.509 Distinguished Name attributes used to
     # create self-signed X.509 certificates
     ebics_key_x509 = fields.Boolean(
@@ -255,7 +255,6 @@ class EbicsUserID(models.Model):
         Create new keys and certificates for this user
         """
         self.ensure_one()
-        self.ebics_config_id._check_ebics_files()
         if self.state != "draft":
             raise UserError(
                 _("Set state to 'draft' before Bank Key (re)initialisation.")
@@ -442,7 +441,6 @@ class EbicsUserID(models.Model):
         must be downloaded and checked for consistency.
         """
         self.ensure_one()
-        self.ebics_config_id._check_ebics_files()
         if self.state != "get_bank_keys":
             raise UserError(_("Set state to 'Get Keys from Bank'."))
         try:
