@@ -62,7 +62,7 @@ class AccountStatementImport(models.TransientModel):
                                 "Statement %(st_name)s dated %(date)s "
                                 "has already been imported.",
                                 st_name=st_vals["name"],
-                                date=st_vals["date"].strftime("%Y-%m-%d"),
+                                date=st_vals["date"],
                             )
                         )
 

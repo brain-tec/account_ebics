@@ -179,6 +179,12 @@ class EbicsFile(models.Model):
         return True
 
     def _lookup_journal(self, res, acc_number, currency_code):
+
+        # Some bank accounts contain the currency code at the end, and this causes problems when searching for
+        # journals with that bank account number
+        if acc_number and currency_code and acc_number[-3:] == currency_code.upper():
+            acc_number = acc_number[:-3]
+
         currency = self.env["res.currency"].search(
             [("name", "=ilike", currency_code)], limit=1
         )
