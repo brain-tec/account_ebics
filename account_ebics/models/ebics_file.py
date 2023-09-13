@@ -442,7 +442,7 @@ class EbicsFile(models.Model):
                 )
             )
         res = {"statement_ids": [], "notifications": []}
-        st_datas = self._split_camt(res)
+        st_datas = self._split_camt(res, file_format)
         if author == "oca":
             self._process_bank_statement_oca(res, st_datas)
         else:
@@ -529,7 +529,7 @@ class EbicsFile(models.Model):
         EBICS data file and its related bank statements.
         """
 
-    def _split_camt(self, res):
+    def _split_camt(self, res, file_format):
         """
         Split CAMT file received via EBICS per statement.
         Statements without transactions are removed.
@@ -541,7 +541,10 @@ class EbicsFile(models.Model):
             message = _("Invalid XML file.")
             res["notifications"].append({"type": "error", "message": message})
         ns = {k or "ns": v for k, v in root.nsmap.items()}
-        stmts = root[0].findall("ns:Stmt", ns)
+        tag_to_find = "ns:Stmt"
+        if file_format == 'camt052':
+            tag_to_find = "ns:Rpt"
+        stmts = root[0].findall(tag_to_find, ns)
         for i, stmt in enumerate(stmts):
             acc_number = sanitize_account_number(
                 stmt.xpath(
@@ -559,7 +562,7 @@ class EbicsFile(models.Model):
 
             root_new = deepcopy(root)
             entries = False
-            for j, el in enumerate(root_new[0].findall("ns:Stmt", ns)):
+            for j, el in enumerate(root_new[0].findall(tag_to_find, ns)):
                 if j != i:
                     el.getparent().remove(el)
                 else:
