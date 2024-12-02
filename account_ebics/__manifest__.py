@@ -23,11 +23,12 @@
     ],
     "installable": True,
     "application": True,
-    "external_dependencies": {
-        "python": [
-            "fintech",
-            "cryptography",
-        ]
-    },
+    # Commented out due to t153800.
+    # "external_dependencies": {
+    #     "python": [
+    #         "fintech",
+    #         "cryptography",
+    #     ]
+    # },
     "images": ["static/description/cover.png"],
 }

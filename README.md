@@ -1,6 +1,10 @@
 [![pipeline status](https://picasso.noviat.com/Noviat/Noviat_Generic/accounting-ebics/badges/15.0/pipeline.svg)](https://picasso.noviat.com/Noviat/Noviat_Generic/accounting-ebics/-/commits/15.0)
 [![coverage report](https://picasso.noviat.com/Noviat/Noviat_Generic/accounting-ebics/badges/15.0/coverage.svg)](https://picasso.noviat.com/Noviat/Noviat_Generic/accounting-ebics/-/commits/15.0)
 
+BT CHANGES:
+
+- Removed external dependencies from manifest in account_ebics
+
 <!-- /!\ do not modify above this line -->
 
 # Modules dedicated to manage the EBICS protocol
